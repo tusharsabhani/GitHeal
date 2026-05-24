@@ -1,6 +1,8 @@
 name: GitHeal API Schema Self-Healing
 
 on:
+  push:
+    branches: [ master, main ]
   schedule:
     # Run once a day (change as needed)
     - cron: '0 0 * * *'
