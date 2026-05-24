@@ -1,0 +1,16 @@
+name: "API Health Check Workflow"
+description: "Step-by-step schema validation data flow"
+
+steps:
+  - id: verify_mock_running
+    type: tool
+    name: check-mock-server-status
+    inputs:
+      command: "curl -s http://127.0.0.1:8000/status"
+  
+  - id: schema_validation
+    type: tool
+    name: run-api-fetcher-validation
+    depends_on: [verify_mock_running]
+    inputs:
+      command: "uv run python tools/api_fetcher.py --validate"

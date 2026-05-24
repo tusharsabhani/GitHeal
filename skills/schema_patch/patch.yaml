@@ -1,0 +1,20 @@
+name: "API Schema Self-Healing Patch"
+description: "Instructions for structural refactoring and PR generation on failure"
+
+steps:
+  - id: execute_healing_patch
+    type: tool
+    name: run-auto-heal
+    inputs:
+      command: "uv run python tools/api_fetcher.py --validate --heal"
+    outputs:
+      status: "${{ steps.execute_healing_patch.status }}"
+
+  - id: run_gitclaw_hooks
+    type: tool
+    name: execute-gitclaw-hooks
+    depends_on: [execute_healing_patch]
+    conditions:
+      - ${{ steps.execute_healing_patch.status == 2 }}
+    inputs:
+      command: "uv run python tools/gitclaw_hooks.py"

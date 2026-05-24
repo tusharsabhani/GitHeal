@@ -1,0 +1,20 @@
+spec_version: "0.1.0"
+name: githeal
+version: "1.0.0"
+description: "Autonomous API schema self-healing workflow"
+model:
+  preferred: "anthropic:claude-3-5-sonnet-latest"
+  fallback:
+    - "openai:gpt-4o"
+compliance:
+  risk_tier: "medium"
+  segregation_of_duties:
+    maker: "developer-agent"
+    checker: "validation-agent"
+tools:
+  - api-fetcher: "tools/api_fetcher.py"
+  - mock-server: "tools/mock_server.py"
+  - gitclaw-hooks: "tools/gitclaw_hooks.py"
+skills:
+  - health-check: "skills/health_check/workflow.yaml"
+  - schema-patch: "skills/schema_patch/patch.yaml"
