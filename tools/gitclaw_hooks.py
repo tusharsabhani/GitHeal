@@ -80,7 +80,7 @@ def main():
         "### Self-Healing Audit Trail\n"
         "- **Status**: Self-healed successfully & validated locally.\n"
         "- **Branch**: `" + branch_name + "`\n"
-        "- **Target Branch**: `main`\n\n"
+        "- **Target Branch**: `master`\n\n"
         "### Code Changes\n"
         "```diff\n" + diff_content + "\n```\n\n"
         "This PR was generated automatically by the GitHeal Agent."
@@ -90,7 +90,7 @@ def main():
         "title": pr_title,
         "body": pr_body,
         "source_branch": branch_name,
-        "target_branch": "main",
+        "target_branch": "master",
         "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "status": "prepared",
         "modified_files": modified_files

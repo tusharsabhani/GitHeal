@@ -70,6 +70,7 @@ jobs:
         run: |
           # Extract metadata from the generated pr_payload.json file
           BRANCH_NAME=$(python -c "import json; print(json.load(open('pr_payload.json'))['source_branch'])")
+          BASE_BRANCH=$(python -c "import json; print(json.load(open('pr_payload.json'))['target_branch'])")
           PR_TITLE=$(python -c "import json; print(json.load(open('pr_payload.json'))['title'])")
           PR_BODY=$(python -c "import json; print(json.load(open('pr_payload.json'))['body'])")
           
@@ -77,4 +78,4 @@ jobs:
           git push origin "$BRANCH_NAME"
           
           # Create PR using GitHub CLI (built-in on ubuntu-latest runners)
-          echo "$PR_BODY" | gh pr create --title "$PR_TITLE" --body-file - --head "$BRANCH_NAME" --base main
+          echo "$PR_BODY" | gh pr create --title "$PR_TITLE" --body-file - --head "$BRANCH_NAME" --base "$BASE_BRANCH"
