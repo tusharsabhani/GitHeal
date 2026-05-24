@@ -34,8 +34,11 @@ jobs:
         run: |
           # Start the mock server in the background
           uv run uvicorn tools.mock_server:app --port 8000 &
-          # Wait 3 seconds for it to start
-          sleep 3
+          # Wait for server to be responsive (up to 30 seconds)
+          for i in $(seq 1 30); do
+            curl -s http://127.0.0.1:8000/status && break
+            sleep 1
+          done
           # Toggle it to drifted mode
           curl -X POST http://127.0.0.1:8000/toggle-drift
 

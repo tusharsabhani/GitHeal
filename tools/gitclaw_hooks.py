@@ -37,14 +37,21 @@ def main():
 
     # 2. Check for modifications (e.g., api_fetcher.py)
     status_res = run_git(["status", "--porcelain"])
-    modified_files = []
+    raw_modified_files = []
     for line in status_res.stdout.splitlines():
         parts = line.strip().split()
         if len(parts) >= 2:
-            modified_files.append(parts[1])
+            raw_modified_files.append(parts[1])
+
+    # Filter out ignored files (e.g., build/dist outputs or pycache)
+    modified_files = []
+    for f in raw_modified_files:
+        check = run_git(["check-ignore", "-q", f], check=False)
+        if check.returncode != 0:
+            modified_files.append(f)
 
     if not modified_files:
-        print("No modified files detected. Workspace is clean. Nothing to commit.")
+        print("No non-ignored modified files detected. Workspace is clean. Nothing to commit.")
         sys.exit(0)
 
     print(f"Detected modified files: {modified_files}")
