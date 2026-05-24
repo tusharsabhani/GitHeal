@@ -29,9 +29,6 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install dependencies
-        run: |
-          uv pip install -e .
 
       - name: Start Mock Server & Toggle Drift
         run: |
