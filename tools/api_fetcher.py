@@ -16,8 +16,8 @@ def normalize_payload(raw_data: dict) -> dict:
     """
     return {
         "user_id": raw_data.get("user_id"),
-        "full_name": raw_data.get("display_name") or raw_data.get("full_name"),
-        "account_status": raw_data.get("account_state") or raw_data.get("account_status")
+        "full_name": raw_data.get("full_name"),
+        "account_status": raw_data.get("account_status")
     }
 # --- END SELF-HEALING ZONE ---
 
