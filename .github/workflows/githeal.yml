@@ -31,6 +31,15 @@ jobs:
         run: |
           uv pip install -e .
 
+      - name: Start Mock Server & Toggle Drift
+        run: |
+          # Start the mock server in the background
+          uv run uvicorn tools.mock_server:app --port 8000 &
+          # Wait 3 seconds for it to start
+          sleep 3
+          # Toggle it to drifted mode
+          curl -X POST http://127.0.0.1:8000/toggle-drift
+
       - name: Run Schema Validation & Healing
         id: githeal
         run: |
