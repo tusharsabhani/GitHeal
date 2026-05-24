@@ -79,3 +79,9 @@ jobs:
           
           # Create PR using GitHub CLI (built-in on ubuntu-latest runners)
           echo "$PR_BODY" | gh pr create --title "$PR_TITLE" --body-file - --head "$BRANCH_NAME" --base "$BASE_BRANCH"
+
+      - name: Stop Mock Server
+        if: always()
+        run: |
+          # Kill the background mock server to release uv/uvicorn cache locks
+          lsof -t -i:8000 | xargs kill -9 || true
